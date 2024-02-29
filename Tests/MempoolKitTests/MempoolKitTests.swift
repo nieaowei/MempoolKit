@@ -5,7 +5,7 @@ final class MempoolKitTests: XCTestCase {
     
     @available(iOS 13.0, *)
     func delay(sec: Double) async throws {
-        try await Task.sleep(nanoseconds: UInt64(sec * 9))
+        try await Task.sleep(nanoseconds: UInt64(sec * 1_000_000_000))
     }
     
     // Difficulty Adjustment
@@ -20,11 +20,12 @@ final class MempoolKitTests: XCTestCase {
     @available(iOS 13.0.0, *)
     func testBlocks() async throws {
         let mempool = Mempool()
-        let blockTipHash = try await mempool.blockTipHash()
-        let blockTipHeight = try await mempool.blockTipHeight()
+        _ = try await mempool.blockTipHash()
+        _ = try await mempool.blockTipHeight()
         let randomBlock = Int.random(in: 10...100000)
         for i in (randomBlock-10)...randomBlock {
-            try await delay(sec: 3)
+            try await delay(sec: 0.5)
+            print("i=\(i)")
             let blockHash = try await mempool.blockHeight(blockHeight: i)
             let _ = try await mempool.block(blockHash: blockHash)
             let _ = try await mempool.blocks(blockHeight: i)
@@ -35,7 +36,8 @@ final class MempoolKitTests: XCTestCase {
             let _ = try await mempool.blockTXs(blockHash: blockHash)
             let blockTXIDs = try await mempool.blockTXIDs(blockHash: blockHash)
             for tx in blockTXIDs {
-                try await delay(sec: 3)
+                try await delay(sec: 0.05)
+                print("tx=\(tx)")
                 try await testTransaction(txid: tx)
             }
         }
