@@ -623,7 +623,7 @@ extension CountryCode {
         let unicodeScalars = self.rawValue
             .unicodeScalars
             .map { $0.value + 0x1F1E6 - 65 }
-            .flatMap(UnicodeScalar.init)
+            .compactMap(UnicodeScalar.init)
         var result = ""
         result.unicodeScalars.append(contentsOf: unicodeScalars)
         return result
