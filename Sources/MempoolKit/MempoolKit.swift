@@ -9,7 +9,7 @@ struct ClearnetReq: RequestTyp {
     }
 }
 
-@available(iOS 13.0, macOS 10.15, *)
+@available(iOS 13.0, macOS 13, *)
 extension SwiftTor: RequestTyp {
     
 }
